@@ -33,19 +33,23 @@ export const App: FC = () => {
 
   return (
     <div className={styles.app}>
-      <textarea
-        className={styles.editor}
-        value={markdown}
-        onChange={handleMarkdownChange}
-        name="editor"
-        id="editor"
-      ></textarea>
+      <div className={styles.editorCard}>
+        <textarea
+          className={styles.editor}
+          value={markdown}
+          onChange={handleMarkdownChange}
+          name="editor"
+          id="editor"
+        ></textarea>
+      </div>
 
-      <ReactMarkdown
-        className={styles.reactMarkdown}
-        children={markdown}
-        remarkPlugins={[gfm]}
-      />
+      <div className={styles.previewCard}>
+        <ReactMarkdown
+          className={styles.reactMarkdown}
+          children={markdown}
+          remarkPlugins={[gfm]}
+        />
+      </div>
     </div>
   );
 };
