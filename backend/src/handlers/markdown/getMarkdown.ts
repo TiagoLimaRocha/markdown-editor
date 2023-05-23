@@ -3,7 +3,7 @@ import { app } from '../../plugins/express';
 import { getPathToMarkdown } from 'backend/src/util';
 
 export function getMarkdown() {
-  app.get('/markdown', (req, res) => {
+  app.get('/markdown/:id', (req, res) => {
     try {
       const pathToMarkdown = getPathToMarkdown();
 

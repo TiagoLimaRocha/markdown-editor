@@ -3,7 +3,7 @@ import { app } from '../../plugins/express';
 import { getPathToMarkdown } from 'backend/src/util';
 
 export function upsertMarkdown() {
-  app.put('/markdown', (req, res) => {
+  app.put('/markdown/:id', (req, res) => {
     try {
       const { data } = req?.body || {};
       const pathToMarkdown = getPathToMarkdown();

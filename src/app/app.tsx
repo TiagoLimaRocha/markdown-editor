@@ -1,56 +1,31 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.scss';
 
-import React, { FC, useState, useEffect } from 'react';
-import ReactMarkdown from 'react-markdown';
-import gfm from 'remark-gfm';
-
-import { MarkdownAPI } from 'src/api';
+import { FC, useState, useEffect } from 'react';
+import { MarkdownEditor, Tab, Tabs } from 'src/components';
 
 export const App: FC = () => {
-  const [markdown, setMarkdown] = useState<string>('');
+  const [tabId, setTabId] = useState<string>(
+    window.localStorage.getItem('tabId') || ''
+  );
 
-  const handleMarkdownChange = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    setMarkdown(event.target.value);
-  };
-
-  //  NOTE:  Fetch the previously stored markdown
   useEffect(() => {
-    MarkdownAPI.get().then((response) => {
-      console.log(response);
-      setMarkdown(response);
-    });
+    const id = window.localStorage.getItem('tabId') || '';
+    setTabId(id);
   }, []);
 
-  //  NOTE:  Upsert the new markdown changes
-  useEffect(() => {
-    if (!!markdown) {
-      MarkdownAPI.upsert(markdown);
-    }
-  }, [markdown]);
-
   return (
-    <div className={styles.app}>
-      <div className={styles.editorCard}>
-        <textarea
-          className={styles.editor}
-          value={markdown}
-          onChange={handleMarkdownChange}
-          name="editor"
-          id="editor"
-        ></textarea>
-      </div>
+    <>
+      <Tabs>
+        {[...Array(3).keys()].map((n: number) => (
+          <Tab n={n} label={`Tab ${n}`}>
+            Content of Tab {n}
+          </Tab>
+        ))}
+      </Tabs>
 
-      <div className={styles.previewCard}>
-        <ReactMarkdown
-          className={styles.reactMarkdown}
-          children={markdown}
-          remarkPlugins={[gfm]}
-        />
-      </div>
-    </div>
+      <MarkdownEditor id={tabId} />
+    </>
   );
 };
 
